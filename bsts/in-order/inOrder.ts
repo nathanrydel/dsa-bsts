@@ -5,49 +5,38 @@ import { Stack, StackNum } from "../common/stack";
  * Returns an array of visited nodes. */
 
 function inOrder(node: BNodeNum | null): number[] {
-
-  // ITERATIVE APPROACH
-  if (node === null) return [];
-
-  const dfsStack = new Stack<BNodeNum>([node]);
+  const dfsStack = new Stack<BNodeNum>();
   const valsReturn: number[] = [];
 
-  while (!dfsStack.isEmpty()) {
-    let current = dfsStack.pop();
+  let curr = node;
 
-    // if (current !== null) {
-    //   dfsStack.push(current);
-    //   current = current.left;
-    //   // toVisit.push(current.left.val);
-    // }
-    // else{
-    //   current = dfsStack.pop();
-    //   toVisit.push(current.val);
-    //   current = current.right;
-    // }
-    if(current.right){
-      dfsStack.push(current.right);
-    }
-    if (current.left) {
-      dfsStack.push(current.left);
-    }else{
-      valsReturn.push(current.val)
+  while (!dfsStack.isEmpty() || curr !== null) {
+    while (curr !== null) {
+      dfsStack.push(curr);
+      curr = curr.left;
     }
 
-    // valsReturn.push(current.val)
-
+    let next = dfsStack.pop();
+    if (next !== null) {
+      valsReturn.push(next.val);
+      curr = next.right;
+    }
   }
 
   return valsReturn;
+}
 
-  // RECURSIVE APPROACH
-  // if (node === null) return [];
+/** rInOrder(): Traverse from the invoking node using in-order DFS recursively.
+ * Returns an array of visited nodes. */
 
-  // return [
-  //   ...inOrder(node.left),
-  //   node.val,
-  //   ...inOrder(node.right)
-  // ];
+function rInOrder(node: BNodeNum | null): number[] {
+  if (node === null) return [];
+
+  return [
+    ...inOrder(node.left),
+    node.val,
+    ...inOrder(node.right)
+  ];
 }
 
 /** inOrderAccum(): Traverse the BST using in-order DFS.
@@ -69,4 +58,4 @@ function inOrderAccum(
 }
 
 
-export { inOrder, inOrderAccum };
+export { inOrder, rInOrder, inOrderAccum };
