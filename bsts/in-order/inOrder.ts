@@ -1,4 +1,5 @@
 import { BNodeNum } from "../common/bst";
+import { Stack, StackNum } from "../common/stack";
 
 /** inOrder(): Traverse from the invoking node using in-order DFS.
  * Returns an array of visited nodes. */
@@ -46,9 +47,16 @@ function inOrder(node: BNodeNum | null): number[] {
  */
 
 function inOrderAccum(
-    node: BNodeNum | null = null,
-    accum: number[] = []): number[] {
-  return [42];
+  node: BNodeNum | null = null,
+  accum: number[] = []): number[] {
+  if (node === null) {
+    return [];
+  } else {
+    inOrderAccum(node.left, accum);
+    accum.push(node.val);
+    inOrderAccum(node.right, accum);
+  };
+  return accum;
 }
 
 
